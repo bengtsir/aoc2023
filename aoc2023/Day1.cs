@@ -13,35 +13,82 @@ namespace aoc2023
         {
             var data = File.ReadAllLines(@"data\day1.txt");
 
-            List<int> cals = new List<int>();
+            var sum = 0;
 
-            var values = data.Select(r => r.Split(' ')).ToArray();
+            foreach (var line in data)
+            {
+                int first = line.First(Char.IsDigit);
+                int last = line.Last(Char.IsDigit);
 
-            /*
-            var values = data.Select(r => r.Length == 0 ? -1 : Int32.Parse(r)).ToArray();
+                int num = 10 * (first - '0') + (last - '0');
 
-            var values = data.Select(r => r.Select(c => (int)(c - 'a')).ToArray()).ToArray();
-
-            var values = data.Select(r => Int64.Parse(r)).ToArray();
-            */
+                sum += num;
+            }
 
 
-
-            Console.WriteLine($"Answer is {values.Count()}");
+            Console.WriteLine($"Answer is {sum}");
         }
 
         public void Part2()
         {
             var data = File.ReadAllLines(@"data\day1.txt");
 
-            List<int> cals = new List<int>();
+            /*
+            data = new []
+            {
+                "two1nine",
+                "eightwothree",
+                "abcone2threexyz",
+                "xtwone3four",
+                "4nineeightseven2",
+                "zoneight234",
+                "7pqrstsixteen",
+            };
+            */
 
-            var values = data.Select(r => r.Split(' ')).ToArray();
+            var replacements = new[]
+            {
+                new[] { "zero", "0" },
+                new[] { "one", "1" },
+                new[] { "two", "2" },
+                new[] { "three", "3" },
+                new[] { "four", "4" },
+                new[] { "five", "5" },
+                new[] { "six", "6" },
+                new[] { "seven", "7" },
+                new[] { "eight", "8" },
+                new[] { "nine", "9" },
+            };
+
+            var sum = 0;
+
+            foreach (var origLine in data)
+            {
+                var line = origLine;
+
+                var p = 0;
+                for (p = 0; p < line.Length; p++)
+                {
+                    foreach (var r in replacements)
+                    {
+                        if (line.Substring(p).StartsWith(r[0]))
+                        {
+                            line = line.Substring(0, p) + r[1] + line.Substring(p + 1);
+                        }
+
+                    }
+                }
+
+                int first = line.First(Char.IsDigit);
+                int last = line.Last(Char.IsDigit);
+
+                int num = 10 * (first - '0') + (last - '0');
+
+                sum += num;
+            }
 
 
-
-
-            Console.WriteLine($"Answer is {values.Count()}");
+            Console.WriteLine($"Answer is {sum}");
         }
 
     }

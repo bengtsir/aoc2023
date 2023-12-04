@@ -10,9 +10,9 @@ namespace aoc2023
     {
         static void Main(string[] args)
         {
-            new Day1().Part1();
+            new Day5().Part1();
 
-            new Day1().Part2();
+            new Day5().Part2();
 
             Console.ReadLine();
         }
