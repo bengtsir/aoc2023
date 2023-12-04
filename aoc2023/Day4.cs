@@ -63,8 +63,6 @@ namespace aoc2023
 
             var values = data.Select(r => r.Substring(4).Split(new[] { ':', '|' }).Select(k => k.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray()).ToArray()).ToArray();
 
-            int sum = 0;
-
             int maxCard = values.Select(v => v[0][0]).Max();
 
             var extraCopies = new int[values.Length + 1];

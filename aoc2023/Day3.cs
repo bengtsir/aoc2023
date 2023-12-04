@@ -286,5 +286,189 @@ namespace aoc2023
             Console.WriteLine($"Answer is {sum}");
         }
 
+        public void Part1_new()
+        {
+            var data = File.ReadAllLines(@"data\day3.txt");
+
+            /*
+            data = new[]
+            {
+                "467..114..",
+                "...*......",
+                "..35..633.",
+                "......#...",
+                "617*......",
+                ".....+.58.",
+                "..592.....",
+                "......755.",
+                "...$.*....",
+                ".664.598..",
+            };
+            */
+
+            int[][] offsets = new[]
+            {
+                new[]{-1, -1},
+                new[]{-1,  0},
+                new[]{-1, +1},
+                new[]{0, -1},
+                new[]{0, +1},
+                new[]{+1, -1},
+                new[]{+1, 0},
+                new[]{+1, +1},
+            };
+
+            data = ArrayMethods.AddBorder(2, '.', data).ToArray();
+
+            int sum = 0;
+
+            for (int i = 2; i < data.Length - 2; i++)
+            {
+                bool inNumber = false;
+                bool symbolFound = false;
+                int number = 0;
+
+                for (int k = 1; k < data[i].Length; k++)
+                {
+                    if (!Char.IsDigit(data[i][k]))
+                    {
+                        if (inNumber)
+                        {
+                            if (symbolFound)
+                            {
+                                sum += number;
+                            }
+
+                            inNumber = false;
+                            symbolFound = false;
+                            number = 0;
+                        }
+                    }
+                    else
+                    {
+                        number = (number * 10) + (data[i][k] - '0');
+                        inNumber = true;
+
+                        foreach (var o in offsets)
+                        {
+                            if (!Char.IsDigit(data[i + o[0]][k + o[1]]) && data[i + o[0]][k + o[1]] != '.')
+                            {
+                                symbolFound = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine($"Answer is {sum}");
+        }
+
+        public void Part2_new()
+        {
+            var data = File.ReadAllLines(@"data\day3.txt");
+
+            /*
+            data = new[]
+            {
+                "467..114..",
+                "...*......",
+                "..35..633.",
+                "......#...",
+                "617*......",
+                ".....+.58.",
+                "..592.....",
+                "......755.",
+                "...$.*....",
+                ".664.598..",
+            };
+            */
+
+            int[][] offsets = new[]
+            {
+                new[]{-1, -1},
+                new[]{-1,  0},
+                new[]{-1, +1},
+                new[]{0, -1},
+                new[]{0, +1},
+                new[]{+1, -1},
+                new[]{+1, 0},
+                new[]{+1, +1},
+            };
+
+            data = ArrayMethods.AddBorder(2, '.', data).ToArray();
+
+            var gearCandidates = new List<GearNumber>();
+
+            int sum = 0;
+
+            for (int i = 2; i < data.Length - 2; i++)
+            {
+                bool inNumber = false;
+                bool symbolFound = false;
+                int number = 0;
+                int gearx = 0;
+                int geary = 0;
+
+                for (int k = 1; k < data[i].Length; k++)
+                {
+                    if (!Char.IsDigit(data[i][k]))
+                    {
+                        if (inNumber)
+                        {
+                            if (symbolFound)
+                            {
+                                gearCandidates.Add(new GearNumber() { Number = number, StarX = gearx, StarY = geary });
+                            }
+
+                            inNumber = false;
+                            symbolFound = false;
+                            number = 0;
+                            gearx = 0;
+                            geary = 0;
+                        }
+                    }
+                    else
+                    {
+                        number = (number * 10) + (data[i][k] - '0');
+                        inNumber = true;
+
+                        foreach (var o in offsets)
+                        {
+                            if (data[i + o[0]][k + o[1]] == '*')
+                            {
+                                symbolFound = true;
+                                gearx = k + o[1];
+                                geary = i + o[0];
+                            }
+                        }
+                    }
+                }
+            }
+
+            sum = 0;
+
+            while (gearCandidates.Count > 0)
+            {
+                var c = gearCandidates.First();
+                gearCandidates.RemoveAt(0);
+
+                var count = gearCandidates.Count(cc => cc.StarX == c.StarX && cc.StarY == c.StarY);
+                if (count > 1)
+                {
+                    gearCandidates.RemoveAll(cc => cc.StarX == c.StarX && cc.StarY == c.StarY);
+                }
+                else if (count == 1)
+                {
+                    var other = gearCandidates.First(cc => cc.StarX == c.StarX && cc.StarY == c.StarY);
+
+                    gearCandidates.Remove(other);
+
+                    sum += c.Number * other.Number;
+                }
+            }
+
+            Console.WriteLine($"Answer is {sum}");
+        }
+
     }
 }
