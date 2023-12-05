@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace aoc2022.Structs
+namespace aoc2023.Structs
 {
     internal struct Point
     {
@@ -31,9 +31,15 @@ namespace aoc2022.Structs
 
     internal class Segment
     {
-        public int Start { get; set; }
-        public int End { get; set; }
-        public int Length => End - Start + 1;
+        public long Start { get; set; }
+        public long End { get; set; }
+        public long Length => End - Start + 1;
+
+        public Segment(long start, long end)
+        {
+            Start = start;
+            End = end;
+        }
 
         public bool Intersects(Segment other)
         {
@@ -50,6 +56,12 @@ namespace aoc2022.Structs
             }
 
             return false;
+        }
+
+        public void Shift(long offset)
+        {
+            Start += offset;
+            End += offset;
         }
     }
 }

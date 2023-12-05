@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using aoc2023.Structs;
 
 namespace aoc2023
 {
@@ -25,6 +26,45 @@ namespace aoc2023
             }
 
             return res.Select(r => new string(c, count) + r + new string(c, count));
+        }
+
+        public static List<Segment> SplitSegment(Segment orig, Segment subRange)
+        {
+            if (!orig.Intersects(subRange))
+            {
+                return new List<Segment>() { orig };
+            }
+
+            var l = new List<Segment>();
+
+            if (orig.Start < subRange.Start)
+            {
+                l.Add(new Segment(orig.Start, subRange.Start - 1));
+
+                if (orig.End > subRange.End)
+                {
+                    l.Add(new Segment(subRange.Start, subRange.End));
+                    l.Add(new Segment(subRange.End, orig.End));
+                }
+                else
+                {
+                    l.Add(new Segment(subRange.Start, orig.End));
+                }
+            }
+            else
+            {
+                if (orig.End > subRange.End)
+                {
+                    l.Add(new Segment(orig.Start, subRange.End));
+                    l.Add(new Segment(subRange.End + 1, orig.End));
+                }
+                else
+                {
+                    l.Add(new Segment(orig.Start, orig.End));
+                }
+            }
+
+            return l;
         }
     }
 }
