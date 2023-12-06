@@ -28,6 +28,11 @@ namespace aoc2023
             return res.Select(r => new string(c, count) + r + new string(c, count));
         }
 
+        // Splits the "orig" segment into one, two or three segments depending
+        // on how it intersects with the "subRange" segment.
+        //
+        // Zero or one of the returned segments are entirely within the subrange,
+        // the others are outside.
         public static List<Segment> SplitSegment(Segment orig, Segment subRange)
         {
             if (!orig.Intersects(subRange))
