@@ -27,6 +27,11 @@ namespace aoc2023.Structs
             X = tuple[0];
             Y = tuple[1];
         }
+
+        public int ManhattanDist(Point other)
+        {
+            return Math.Abs(other.X - X) + Math.Abs(other.Y - Y);
+        }
     }
 
     internal class Segment
