@@ -439,9 +439,24 @@ namespace aoc2023
                 }
             }
 
+            var replacements = new List<char[]>
+            {
+                new[] { '-', '\u2500' },
+                new[] { '|', '\u2502' },
+                new[] { 'L', '\u2514' },
+                new[] { 'J', '\u2518' },
+                new[] { 'F', '\u250c' },
+                new[] { '7', '\u2510' }
+            };
+
             for (int i = 0; i < marks.Length; i++)
             {
-                Console.WriteLine(new string(marks[i]));
+                var line = new string(marks[i]);
+                foreach (var repl in replacements )
+                {
+                    line = line.Replace(repl[0], repl[1]);
+                }
+                Console.WriteLine(line);
             }
 
             int sum = marks.Sum(s => s.Count(c => c == '+'));
