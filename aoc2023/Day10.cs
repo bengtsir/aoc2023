@@ -9,10 +9,10 @@ namespace aoc2023
 {
     enum Direction
     {
-        UP,
-        RIGHT,
-        LEFT,
-        DOWN
+        UP = 0,
+        RIGHT = 1,
+        LEFT = 2,
+        DOWN = 3
     };
 
     internal class Day10
